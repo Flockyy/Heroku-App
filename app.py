@@ -69,8 +69,6 @@ with my_cont:
         search_by_actor()
     if by_genre_input:
         search_by_genre()
-    if by_actor_input:
-        search_by_actor()
     if by_duration_input:
         search_by_duration()
     if by_rating_input:
