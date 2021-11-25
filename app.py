@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import re
 import time
 
 st.write(""" # Web Scraping App """)
@@ -30,32 +29,31 @@ my_cont = st.container()
 
 
 def search_by_name():
-    title_df = movie_db[movie_db['title'].str.contains(by_title_input, flags=re.IGNORECASE)]
+    title_df = movie_db[movie_db['title'].str.contains(by_title_input)]
     
     return st.write('### Your researched movie :', title_df)
 
 def search_by_actor():
     
-    actor_df = movie_db[movie_db['actors'].str.contains(by_actor_input, flags=re.IGNORECASE)]
+    actor_df = movie_db[movie_db['actors'].str.contains(by_actor_input)]
     
     return st.write(f'### The movies with {by_actor_input} :', actor_df)
 
 def search_by_genre():
-    genre_df = movie_db[movie_db['genre'].str.contains(by_genre_input, flags=re.IGNORECASE)]
+    genre_df = movie_db[movie_db['genre'].str.contains(by_genre_input)]
     
     return st.write(f'### All the {by_genre_input} related movies :', genre_df)
 
 def search_by_duration():
-    duration_df = movie_db[movie_db['duration'].astype(str).str.contains(str(by_duration_input), flags=re.IGNORECASE)]
+    duration_df = movie_db[movie_db['duration'].astype(str).str.contains(str(by_duration_input))]
     
     return st.write(f'### Movies that length {by_duration_input} :', duration_df)
 
 def search_by_rating():    
-    rating_df = movie_db[movie_db['note'].astype(str).str.contains(str(by_rating_input), flags=re.IGNORECASE)]
+    rating_df = movie_db[movie_db['note'].astype(str).str.contains(str(by_rating_input))]
 
     return st.write(f'### Movies rated with {by_rating_input} :', rating_df)
 
-# by_title_input = st.sidebar.text_input("Search by title", on_change = search_by_name)
 by_title_input = st.sidebar.selectbox("Search by title", movie_db['title'].unique())
 by_actor_input = st.sidebar.selectbox("Search by actor", actors_list.unique())
 by_genre_input = st.sidebar.selectbox("Search by genre", genre_list.unique())
@@ -78,7 +76,8 @@ with my_cont:
     if by_rating_input:
         search_by_rating()
     if yes_top_ten:
-        st.write(country_list)
+        st.write('### Number of movie for each countries')
+        st.bar_chart(country_list)
     if start_load:
         my_bar = st.progress(0)
         for percent_complete in range(100):
